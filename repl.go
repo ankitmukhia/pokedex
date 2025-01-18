@@ -5,7 +5,15 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/ankitmukhia/pokedex/internal/pokeapi"
 )
+
+type config struct {
+	pokeapiClient pokeapi.Client
+	next *string
+	prev *string
+}
 
 func startRepl() {
 	reader := bufio.NewScanner(os.Stdin)
@@ -24,6 +32,7 @@ func startRepl() {
 				if err != nil {
 					fmt.Print(err)
 				}
+				continue
 			} else {
 				fmt.Println("Unknown command")
 			}
@@ -54,6 +63,16 @@ func command() map[string]cliCommand {
 			name:        "help",
 			description: "Help the Pokedex",
 			callback:    commandHelp,
+		},
+		"map": {
+			name:        "map",
+			description: "Log pakedex location",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Log pakedex previous location",
+			callback:    commandMapB,
 		},
 	}
 }
